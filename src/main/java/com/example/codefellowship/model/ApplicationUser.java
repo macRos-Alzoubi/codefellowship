@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -28,6 +30,9 @@ public class ApplicationUser implements UserDetails {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
 
+    @OneToMany(mappedBy = "applicationUser")
+    private List<Post> posts;
+
     public ApplicationUser() {
     }
 
@@ -38,6 +43,15 @@ public class ApplicationUser implements UserDetails {
         this.lastName = lastName;
         this.bio = bio;
         this.dateOfBirth = dateOfBirth;
+        posts = new ArrayList<>();
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public String getUsername() {

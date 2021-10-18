@@ -29,6 +29,20 @@
         <p th:text="${user.getBio()}"></p>
     </div>
 
+    <div>
+        <ul class="list-unstyled" th:each="post: ${user.getPosts()}">
+            <li>
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <p th:text="${post.getApplicationUser().getUsername()}"></p>
+                        <p th:text="${post.getCreatedAt()}"></p>
+                    </div>
+                    <p th:text="${post.getBody()}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
