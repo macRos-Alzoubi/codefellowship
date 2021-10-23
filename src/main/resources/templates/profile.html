@@ -10,9 +10,15 @@
 <body>
 <div class="d-flex flex-column justify-content-center align-items-center mt-5 p-5`">
 
-    <div class="align-self-end">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">logout</button>
+    <div class="d-flex">
+        <div th:if="${user.getId() != loggedInUser.getId() && !loggedInUser.getFollowing().contains(user)}">
+            <form th:action="@{/users/follow/__${user.getId()}__/__${loggedInUser.getId()}__}" method="post"
+                  class="align-self-end">
+                <button type="submit" class="btn btn-primary">Follow</button>
+            </form>
+        </div>
+        <form th:action="@{/logout}" method="post" class="align-self-end">
+            <button type="submit" class="btn btn-danger">logout</button>
         </form>
     </div>
 
@@ -27,6 +33,17 @@
     <div>
         <p>Bio</p>
         <p th:text="${user.getBio()}"></p>
+    </div>
+
+    <div>
+        <form th:action="@{/posts}" method="post">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a post here" id="floatingTextarea" name="postBody"
+                          required></textarea>
+                <label for="floatingTextarea">Post</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </form>
     </div>
 
     <div>

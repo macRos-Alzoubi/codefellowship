@@ -33,6 +33,12 @@ public class ApplicationUser implements UserDetails {
     @OneToMany(mappedBy = "applicationUser")
     private List<Post> posts;
 
+    @OneToMany
+    private List<ApplicationUser> following;
+
+    @OneToMany
+    private List<ApplicationUser> followers;
+
     public ApplicationUser() {
     }
 
@@ -44,6 +50,8 @@ public class ApplicationUser implements UserDetails {
         this.bio = bio;
         this.dateOfBirth = dateOfBirth;
         posts = new ArrayList<>();
+        followers = new ArrayList<>();
+        following = new ArrayList<>();
     }
 
     public List<Post> getPosts() {
@@ -161,6 +169,22 @@ public class ApplicationUser implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public List<ApplicationUser> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<ApplicationUser> followers) {
+        this.followers = followers;
+    }
+
+    public List<ApplicationUser> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<ApplicationUser> following) {
+        this.following = following;
     }
 
     @Override

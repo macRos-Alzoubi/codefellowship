@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>POSTS | Feeds</title>
+</head>
+<body>
+
+<div class="d-flex w-75">
+    <div class="card" th:each="user : ${users}">
+        <div class="d-flex justify-content-between">
+            <!--            <p th:text="${user.getUsername()}"></p>-->
+            <a th:text="${user.getUsername()}" th:href="${'/users/'+ user.getId()}" class="text-decoration-none"></a>
+            <p th:text="${user.getFollowers().size()} + ' Followers'"></p>
+        </div>
+        <div>
+            <div th:each="post : ${user.getPosts()}">
+                <p th:text="${post.getBody()}"></p>
+                <div class="px-2">
+                    <div>
+                        <form th:action="@{/comments/__${post.getId()}__}" method="post">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here"
+                                          id="floatingTextarea" name="commentContent" required></textarea>
+                                <label for="floatingTextarea">Comments</label>
+                                <button type="submit">Comment</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div th:each="commint : ${post.getComments()}">
+                        <div>
+                            <p th:text="${loggedInUser.getUsername()}"></p>
+                            <p th:text="${loggedInUser.getFollowers().size()} + ' Followers'"></p>
+                            <div>
+                                <p th:text="${commint.getContent()}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
