@@ -101,7 +101,6 @@ public class ApplicationController {
     public String getAllPosts(Model model, Principal p) {
         //UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ApplicationUser applicationUser = applicationUserRepository.findApplicationUserByUsername(p.getName()).orElse(null);
-        System.out.println("***************** In feed **********************");
 
         if (applicationUser == null)
             return "error";
@@ -116,7 +115,6 @@ public class ApplicationController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ApplicationUser applicationUser = applicationUserRepository.findApplicationUserByUsername(userDetails.getUsername()).orElse(null);
 
-        System.out.println("***************** In Follow **********************");
         if (applicationUser == null) {
             return new RedirectView("error");
         }
@@ -128,15 +126,16 @@ public class ApplicationController {
     }
 
     @PostMapping("comments/{postId}")
-    public void addNewComment(@RequestParam String commentContent, @PathVariable long postId) {
+    public RedirectView addNewComment(@RequestParam String commentContent, @PathVariable long postId) {
 
         Post post = postRepository.findById(postId).orElse(null);
 
-        if (post != null) {
-            Comment comment = new Comment(commentContent, post);
-            commentRepository.save(comment);
-        }
+        if (post == null)
+            return new RedirectView("/error");
 
+        Comment comment = new Comment(commentContent, post);
+        commentRepository.save(comment);
+        return new RedirectView("/feed");
     }
 
     @PostMapping("/users/follow/{profileOwnerId}/{loggedInUserId}")

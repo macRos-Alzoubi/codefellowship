@@ -35,24 +35,24 @@
         <p th:text="${user.getBio()}"></p>
     </div>
 
-    <div>
+    <div th:if="${user.getId() == loggedInUser.getId()}">
         <form th:action="@{/posts}" method="post">
             <div class="form-floating">
                 <textarea class="form-control" placeholder="Leave a post here" id="floatingTextarea" name="postBody"
                           required></textarea>
                 <label for="floatingTextarea">Post</label>
             </div>
-            <button class="btn btn-primary" type="submit">Post</button>
+            <button class="btn btn-primary my-3" type="submit">Post</button>
         </form>
     </div>
 
     <div>
-        <ul class="list-unstyled" th:each="post: ${user.getPosts()}">
+        <ul class="list-unstyled" th:each="post : ${user.getPosts()}">
             <li>
                 <div>
                     <div class="d-flex justify-content-between">
-                        <p th:text="${post.getApplicationUser().getUsername()}"></p>
-                        <p th:text="${post.getCreatedAt()}"></p>
+                        <p th:text="${user.getUsername()}"></p>
+                        <p th:text="${post.createdAt}"></p>
                     </div>
                     <p th:text="${post.getBody()}"></p>
                 </div>

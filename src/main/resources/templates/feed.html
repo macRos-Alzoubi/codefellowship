@@ -16,8 +16,8 @@
             <a th:text="${user.getUsername()}" th:href="${'/users/'+ user.getId()}" class="text-decoration-none"></a>
             <p th:text="${user.getFollowers().size()} + ' Followers'"></p>
         </div>
-        <div>
-            <div th:each="post : ${user.getPosts()}">
+        <div class="w-75 d-flex flex-column align-items-center justify-content-between">
+            <div th:each="post : ${user.getPosts()}" class="card my-4">
                 <p th:text="${post.getBody()}"></p>
                 <div class="px-2">
                     <div>
@@ -26,14 +26,16 @@
                                 <textarea class="form-control" placeholder="Leave a comment here"
                                           id="floatingTextarea" name="commentContent" required></textarea>
                                 <label for="floatingTextarea">Comments</label>
-                                <button type="submit">Comment</button>
+                                <button type="submit" class="btn btn-primary mt-3">Comment</button>
                             </div>
                         </form>
                     </div>
                     <div th:each="commint : ${post.getComments()}">
                         <div>
-                            <p th:text="${loggedInUser.getUsername()}"></p>
-                            <p th:text="${loggedInUser.getFollowers().size()} + ' Followers'"></p>
+                            <div class="d-flex justify-content-between">
+                                <p th:text="${loggedInUser.getUsername()}"></p>
+                                <p th:text="${loggedInUser.getFollowers().size()} + ' Followers'"></p>
+                            </div>
                             <div>
                                 <p th:text="${commint.getContent()}"></p>
                             </div>
